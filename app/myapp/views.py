@@ -3,7 +3,7 @@ from rest_framework import permissions
 from django.utils import timezone
 
 from .models import Product, Lesson
-from .serializers import ProductSerializer, LessonSerializer
+from .serializers import ProductSerializer, LessonSerializer, ProductStatsSerializer
 
 
 class AvailableProductsAPIView(generics.ListAPIView):
@@ -30,3 +30,8 @@ class LessonsByProductAPIView(generics.ListAPIView):
         user = self.request.user
         product_id = self.kwargs['product_id']
         return Lesson.objects.filter(product_id=product_id, product__accessible_users=user)
+
+
+class ProductStatsAPIView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductStatsSerializer
